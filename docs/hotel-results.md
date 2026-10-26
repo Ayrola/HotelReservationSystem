@@ -1,0 +1,19 @@
+# Hotel search results
+
+`/hotels/` and `/pages/hotels/` now share the results entry. Destination, dates and guests are editable through the shared search form. Optional maximum EUR nightly price and price/name sorting apply to the complete matching dataset on the server, followed by deterministic pagination (12 hotels per page) and an exact hotel count. Changing a search/filter starts at page 1. Page links and View Hotel links retain the applied search context.
+
+URL parameters: `destination`, `checkIn`, `checkOut`, `guests`, `maxPrice`, `sort`, `page`. Dates must both be absent or describe a valid 1–30-night calendar stay. Guests are a positive PostgreSQL integer (default 2). Maximum price is nonnegative with at most two decimals. Sort is `price_asc` (default), `price_desc`, `name_asc` or `name_desc`. Page is 1–1,000,000. Duplicate parameters and malformed inputs produce an editable invalid-input state without making a search request. Destination is an optional, case-insensitive literal substring of hotel name, city or country, up to 100 characters; SQL wildcard characters have no special meaning.
+
+One `search_hotels` RPC request returns the page, total hotel count, dates-mode metadata, eligible room-type summaries, exact EUR quotes and cover metadata. No per-card requests are made to the database. Image downloads use the existing configured public bucket and graceful cover fallback.
+
+With dates, `private.search_hotels` calls the existing `private.get_availability` implementation once and retains only types with positive availability. Existing hotel-local date, active inventory and capacity rules apply. A maximum price filters room types before hotels are grouped, counted, sorted and paginated. Each summary includes nightly rate and total stay price; each card shows the minimum matching nightly and total price, nights and guests. Quotes are observations, not room holds; booking must recheck inventory.
+
+Without dates, all published hotels are eligible; indicative rates/summaries come only from active room types that fit the guest count. Hotels without such rates remain visible with a price-unavailable message unless a maximum-price filter is set. No availability calculation or claim is made. Null prices sort last. All sort orders have stable name/ID tie breakers. An out-of-range page retains the accurate total and offers a first-page link.
+
+Applied migration: `20261026191107_hotel_search.sql`. Before application, both existing local and remote migration versions/names/normalized SQL hashes matched. The new file was renamed to the server-assigned version without rewriting its SQL. Normalized SQL MD5: `32e29cd3b5cb31be93c473d864ae6561`. This read-only operation uses an invoker public wrapper and a pinned-search-path private definer, explicitly checks published state even for authenticated admins, grants execution only to visitor/authenticated roles, and returns no physical-room IDs, room numbers, booking rows or guest data. Existing RLS, grants and booking writes are unchanged.
+
+Focused verification: five Node search/URL tests; local isolated PostgreSQL search-only checks covering published-state filtering, global ordering and budget, two pages and exact counts, unavailable rooms, exact totals, empty pages, invalid parameters and public data boundaries; production build. The local runner's `--search-only` flag skips the existing long integrity/concurrency suite. Live visitor RPC checks succeeded for catalog and dated searches (zero matching hotels), and invalid sort returned `22023`. No live fixtures or seed data were inserted. No Playwright or browser checks were run, as requested.
+
+The property-details page remains a placeholder. Real cover images still require the previously documented Storage bucket configuration and uploads; this milestone does not provision Storage or invent photos.
+
+Reference checked: [Supabase JS rpc](https://supabase.com/docs/reference/javascript/rpc).

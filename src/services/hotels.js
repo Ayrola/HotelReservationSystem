@@ -1,5 +1,22 @@
 import { requireSupabaseClient } from './supabase-client.js';
 
+export function hotelCoverUrl(client, cover) {
+  const bucket = import.meta.env.VITE_SUPABASE_HOTEL_IMAGES_BUCKET?.trim();
+  return bucket && cover?.storage_path ? client.storage.from(bucket).getPublicUrl(cover.storage_path).data.publicUrl : null;
+}
+
+export async function searchHotels(values) {
+  const client = requireSupabaseClient();
+  const { data, error } = await client.rpc('search_hotels', {
+    p_check_in: values.checkIn || null, p_check_out: values.checkOut || null,
+    p_guests: Number(values.guests), p_destination: values.destination.trim(),
+    p_max_price: values.maxPrice === '' ? null : values.maxPrice,
+    p_sort: values.sort, p_page: Number(values.page), p_page_size: 12,
+  });
+  if (error) throw new Error('Hotel search is unavailable. Please try again.');
+  return { ...data, hotels: data.hotels.map(hotel => ({ ...hotel, image: hotelCoverUrl(client, hotel.cover) })) };
+}
+
 export async function loadFeaturedHotels() {
   const client = requireSupabaseClient();
   const { data, error } = await client.from('hotels')

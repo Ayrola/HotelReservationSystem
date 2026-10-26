@@ -2,7 +2,7 @@ import { element } from '../utils/dom.js';
 import { createField } from './forms.js';
 import { searchParameters, validateHotelSearch } from '../utils/hotel-search.js';
 
-export function createHotelSearch({ onChange = () => {}, navigate = url => window.location.assign(url) } = {}) {
+export function createHotelSearch({ onChange = () => {}, navigate = url => window.location.assign(url), allowUndated = false, validate = validateHotelSearch, onSubmit } = {}) {
   const initial = new URLSearchParams(window.location.search);
   const definitions = [
     ['destination', 'Destination', 'text', 'City or destination. Leave blank to explore all hotels.'],
@@ -11,7 +11,7 @@ export function createHotelSearch({ onChange = () => {}, navigate = url => windo
     ['guests', 'Guests', 'number', 'One physical room per reservation.'],
   ];
   const fields = Object.fromEntries(definitions.map(([id, label, type, help]) => {
-    const field = createField({ id, label, type, help, required: id !== 'destination' });
+    const field = createField({ id, label, type, help, required: id === 'guests' || (!allowUndated && id !== 'destination') });
     field.input.value = initial.get(id) ?? (id === 'guests' ? '2' : '');
     if (id === 'guests') { field.input.min = '1'; field.input.step = '1'; }
     if (id === 'destination') field.input.maxLength = 100;
@@ -27,7 +27,7 @@ export function createHotelSearch({ onChange = () => {}, navigate = url => windo
   form.addEventListener('input', () => { summary.hidden = true; onChange(values()); });
   form.addEventListener('submit', event => {
     event.preventDefault();
-    const errors = validateHotelSearch(values());
+    const errors = validate(values());
     if (fields.destination.input.value.length > 100) errors.destination = 'Use at most 100 characters.';
     for (const [name, field] of Object.entries(fields)) field.setError(errors[name] ?? '');
     const names = Object.keys(errors); summary.hidden = names.length === 0;
@@ -35,7 +35,8 @@ export function createHotelSearch({ onChange = () => {}, navigate = url => windo
       summary.textContent = 'Please correct the highlighted search fields.';
       fields[names[0]].input.focus(); return;
     }
-    navigate(`/hotels/?${searchParameters(values())}`);
+    if (onSubmit) onSubmit(values());
+    else navigate(`/hotels/?${searchParameters(values())}`);
   });
-  return { form, values };
+  return { form, values, fields, summary };
 }

@@ -58,6 +58,10 @@ User-authorized server-only Node seed with explicit target reference confirmatio
 
 User-authorized Home scope only: hero, shared validated search, active Supabase featured catalog, indicative EUR pricing, cover fallback, detail selection preservation and pay-at-hotel explanation. `/hotels/` aliases the existing Hotels HTML entry in development and production. Three date/search tests, nine browser tests, four configuration tests, build and all page/alias checks passed. Live visitor catalog query succeeded with zero active hotels; no seed or database mutation occurred. See docs/home-page.md for behavior, image configuration and verification limits. Hotels/details, authentication, Storage provisioning and booking UI remain deferred until authorized.
 
+## Milestone Hotels — public search results (implemented)
+
+User-authorized results scope: editable search, validated URL state, dated availability summaries and exact quotes, undated indicative catalog, destination/budget filters, global price/name sorting, server pagination/counts, cover fallback and context-preserving detail actions. Read-only search RPC migration applied as 20261026191107 after history alignment and focused local SQL checks. Five short Node tests and production build passed; live public RPC checks passed with zero matches. No Playwright or long regression/concurrency suite was run, per user direction. See docs/hotel-results.md. Details, booking UI, Storage provisioning and authentication remain outside this scope.
+
 ## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.

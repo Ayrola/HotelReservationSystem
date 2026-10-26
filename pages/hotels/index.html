@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <meta name="description" content="Staywell hotel booking platform - Hotels. Placeholder preview.">
+ <meta name="description" content="Search Staywell hotels by destination, dates, guests and nightly budget. Compare room-type rates and pay at the hotel.">
  <title>Hotels | Staywell</title>
 </head>
 <body>
@@ -11,12 +11,16 @@
  <div id="site-header"></div>
  <main id="main-content" tabindex="-1">
   <div class="page-container page-heading">
-   <p class="eyebrow">Staywell / Page preview</p>
+   <p class="eyebrow">Find your next stay</p>
    <h1>Hotels</h1>
-   <p class="preview-notice">Clearly labelled placeholder. This feature is not available yet.</p>
-   <div id="selection-context"></div>
+   <p>Explore published hotels or enter dates to check room types and stay prices.</p>
   </div>
-  <div id="page-content"></div>
+  <div class="page-container section-space">
+   <div id="results-search"></div>
+   <p id="results-status" class="mt-4" role="status" aria-live="polite"></p>
+   <div id="hotel-results" class="card-grid" aria-busy="false"></div>
+   <nav id="results-pagination" class="results-pagination" aria-label="Results pages"></nav>
+  </div>
  </main>
  <div id="site-footer"></div>
  <noscript><p class="page-container">Enable JavaScript for the shared interface. <a href="/">Home</a> / <a href="/pages/hotels/">Hotels</a></p></noscript>

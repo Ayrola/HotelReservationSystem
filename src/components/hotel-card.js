@@ -1,6 +1,6 @@
 import { element, icon, safeImageUrl } from '../utils/dom.js';
 
-export function createPublicHotelCard({ title, destination, image, imageAlt, nightlyPrice, href }) {
+export function createPublicHotelCard({ title, destination, image, imageAlt, nightlyPrice, href, dated = false }) {
   const fallback = element('p', { className: 'hotel-image-fallback', text: 'Property photo unavailable' });
   const media = element('div', { className: 'hotel-card-image' }, [fallback]);
   if (image) {
@@ -19,8 +19,8 @@ export function createPublicHotelCard({ title, destination, image, imageAlt, nig
     element('div', { className: 'hotel-card-body' }, [
       element('p', { className: 'card-kicker' }, [icon('geo-alt'), document.createTextNode(` ${destination}`)]),
       element('h3', { className: 'h4' }, [element('a', { href, text: title, 'data-hotel-link': '' })]),
-      element('div', { className: 'card-price' }, [element('strong', { text: price }), element('small', { text: 'Indicative catalog price · EUR · Pay at the hotel' })]),
-      element('p', { className: 'small text-muted mb-0', text: 'Check your dates and guests for availability and the final price.' }),
+      element('div', { className: 'card-price' }, [element('strong', { text: price }), element('small', { text: dated ? 'Available room-type rate · EUR · Pay at the hotel' : 'Indicative catalog price · EUR · Pay at the hotel' })]),
+      element('p', { className: 'small text-muted mb-0', text: dated ? 'Availability is checked again when you book.' : 'Check your dates and guests for availability and the final price.' }),
     ]),
   ]);
 }

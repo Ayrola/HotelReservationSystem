@@ -1,6 +1,6 @@
 # Shared design system
 
-Staywell is the interface name for the Hotel Booking System. The visual language uses warm neutral surfaces, dark forest-green accents, generous spacing, system body typography and serif headings. Home loads real active catalog records and explicitly indicative prices; its hero photograph remains illustrative. Other pages remain previews. No ratings or reviews are claimed. See [Home page](home-page.md).
+Staywell is the interface name for the Hotel Booking System. The visual language uses warm neutral surfaces, dark forest-green accents, generous spacing, system body typography and serif headings. Home loads real active catalog records and explicitly indicative prices; its hero photograph remains illustrative. Hotels provides [search results](hotel-results.md); other pages remain previews. No ratings or reviews are claimed. See [Home page](home-page.md).
 
 ## Structure
 
