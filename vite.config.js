@@ -10,6 +10,20 @@ export default defineConfig(({ mode }) => {
     throw new Error(configuration.error);
   }
   return {
+    plugins: [{
+      name: 'hotels-route-alias',
+      enforce: 'post',
+      configureServer(server) {
+        server.middlewares.use((request, response, next) => {
+          if (/^\/hotels(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/hotels\/?/, '/pages/hotels/');
+          next();
+        });
+      },
+      generateBundle(options, bundle) {
+        const hotels = bundle['pages/hotels/index.html'];
+        if (hotels) this.emitFile({ type: 'asset', fileName: 'hotels/index.html', source: hotels.source });
+      },
+    }],
     appType: 'mpa',
     input: Object.fromEntries(pages.map(({ key, html }) => [key, html])),
   };

@@ -3,20 +3,40 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <meta name="description" content="Staywell hotel booking platform - Hotel Booking System. Placeholder preview.">
+ <meta name="description" content="Explore hotel destinations with Staywell. Choose your dates and guests, and pay at the hotel in EUR.">
  <title>Hotel Booking System | Staywell</title>
 </head>
 <body>
  <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to main content</a>
  <div id="site-header"></div>
  <main id="main-content" tabindex="-1">
-  <div class="page-container page-heading">
-   <p class="eyebrow">Staywell / Page preview</p>
-   <h1>Hotel Booking System</h1>
-   <p class="preview-notice">Clearly labelled placeholder. This feature is not available yet.</p>
-   <div id="selection-context"></div>
-  </div>
-  <div id="page-content"></div>
+  <section class="hero" aria-labelledby="home-heading">
+   <img class="hero-image" src="/images/hotel-pool.jpg" alt="" width="1800" height="1200" fetchpriority="high">
+   <div class="page-container hero-content">
+    <p class="eyebrow">A change of scene</p>
+    <h1 id="home-heading">Find your next hotel stay.</h1>
+    <p>City mornings, mountain air, a little time away. Explore hotels, choose your dates and pay at the hotel.</p>
+    <p class="photo-caption">Illustrative travel photography</p>
+   </div>
+  </section>
+  <div id="home-search" class="page-container home-search-container"></div>
+  <section class="page-container section-space" aria-labelledby="featured-heading">
+   <p class="eyebrow">A place to begin</p>
+   <h2 id="featured-heading">Featured hotels</h2>
+   <p class="section-description">Explore published properties. “From” prices are indicative nightly catalog rates; availability and your final quote depend on your dates and guests.</p>
+   <p id="featured-status" role="status" aria-live="polite"></p>
+   <div id="featured-hotels" class="card-grid" aria-busy="true"></div>
+  </section>
+  <section class="page-container section-space booking-explainer" aria-labelledby="booking-heading">
+   <p class="eyebrow">A clearer journey</p>
+   <h2 id="booking-heading">Choose your stay. Pay when you arrive.</h2>
+   <ol class="booking-steps">
+    <li><h3 class="h5">Find your hotel</h3><p>Search a destination for your dates and guests. Stays are 1–30 nights, using hotel-local dates.</p></li>
+    <li><h3 class="h5">Reserve one room</h3><p>Each reservation is for one physical room. Confirmation is immediate when a room is available at booking time.</p></li>
+    <li><h3 class="h5">Pay at the hotel</h3><p>Prices are in EUR. Payment is made at the hotel; there is no online payment processing.</p></li>
+   </ol>
+   <p class="small text-muted">Hotel browsing, sign-in and booking screens are still being connected. This Home page does not create reservations.</p>
+  </section>
  </main>
  <div id="site-footer"></div>
  <noscript><p class="page-container">Enable JavaScript for the shared interface. <a href="/">Home</a> / <a href="/pages/hotels/">Hotels</a></p></noscript>

@@ -54,6 +54,10 @@ Booking/login UI, Storage policies and broader admin reservation operations rema
 
 User-authorized server-only Node seed with explicit target reference confirmation, Auth Admin account creation, one configured seed-owned admin, fictional Bulgarian catalog, future fixture bookings, read-only dry-run and resumable counts. See docs/demo-seed.md. No schema/migration changes, Storage provisioning or hosted seed execution were performed. Six seed tests, four configuration tests and the production build passed. Hosted counts await operator execution with dedicated demo credentials. Storage images remain deferred with existing local assets reported. This scope does not authorize the next milestone.
 
+## Milestone Home — public Home page (implemented)
+
+User-authorized Home scope only: hero, shared validated search, active Supabase featured catalog, indicative EUR pricing, cover fallback, detail selection preservation and pay-at-hotel explanation. `/hotels/` aliases the existing Hotels HTML entry in development and production. Three date/search tests, nine browser tests, four configuration tests, build and all page/alias checks passed. Live visitor catalog query succeeded with zero active hotels; no seed or database mutation occurred. See docs/home-page.md for behavior, image configuration and verification limits. Hotels/details, authentication, Storage provisioning and booking UI remain deferred until authorized.
+
 ## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.

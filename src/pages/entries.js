@@ -3,7 +3,7 @@ export const pages = [
   {
     "key": "home",
     "path": "/",
-    "title": "Hotel Booking System",
+    "title": "Find your next hotel stay.",
     "html": "index.html"
   },
   {

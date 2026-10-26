@@ -4,6 +4,7 @@
   "scripts": {
     "seed:demo": "node scripts/seed-demo.mjs",
     "check:seed": "node --test scripts/seed-demo.test.mjs",
+    "check:search": "node --test scripts/hotel-search.test.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

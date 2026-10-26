@@ -1,5 +1,30 @@
 import { element, icon, safeImageUrl } from '../utils/dom.js';
 
+export function createPublicHotelCard({ title, destination, image, imageAlt, nightlyPrice, href }) {
+  const fallback = element('p', { className: 'hotel-image-fallback', text: 'Property photo unavailable' });
+  const media = element('div', { className: 'hotel-card-image' }, [fallback]);
+  if (image) {
+    let src = '';
+    try { src = safeImageUrl(image); } catch { /* fallback remains visible */ }
+    if (src) {
+      const photo = element('img', { src, alt: imageAlt, loading: 'lazy', width: '800', height: '600', style: 'position:absolute;inset:0;opacity:0' });
+      photo.addEventListener('load', () => { photo.style.opacity = '1'; fallback.hidden = true; });
+      photo.addEventListener('error', () => { photo.remove(); fallback.hidden = false; });
+      media.append(photo);
+    }
+  }
+  const price = nightlyPrice !== null && Number.isFinite(nightlyPrice)
+    ? `From ${new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR' }).format(nightlyPrice)} / night` : 'Nightly price not available';
+  return element('article', { className: 'hotel-card' }, [media,
+    element('div', { className: 'hotel-card-body' }, [
+      element('p', { className: 'card-kicker' }, [icon('geo-alt'), document.createTextNode(` ${destination}`)]),
+      element('h3', { className: 'h4' }, [element('a', { href, text: title, 'data-hotel-link': '' })]),
+      element('div', { className: 'card-price' }, [element('strong', { text: price }), element('small', { text: 'Indicative catalog price · EUR · Pay at the hotel' })]),
+      element('p', { className: 'small text-muted mb-0', text: 'Check your dates and guests for availability and the final price.' }),
+    ]),
+  ]);
+}
+
 export function createHotelCard({ title, description, image, imageAlt, nightlyPrice = null, placeholder = true }) {
   const price = nightlyPrice !== null && Number.isFinite(nightlyPrice)
     ? `${new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR' }).format(nightlyPrice)} / night`

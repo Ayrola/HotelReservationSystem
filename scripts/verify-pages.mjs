@@ -15,29 +15,31 @@ try {
     assert.match(response.headers.get('content-type'), /text\/html/);
     const served = await response.text();
     assert.equal(served, built, `Wrong nested entry: ${page.path}`);
-    assert.ok(served.includes(`<h1>${page.title}</h1>`));
+    assert.ok(new RegExp(`<h1[^>]*>${page.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</h1>`).test(served));
     assert.match(served, /<script\b[^>]*type="module"[^>]*src="\/assets\//);
     for (const [, path] of served.matchAll(/(?:src|href)="([^"#]+)"/g)) {
-      if (path.startsWith('/assets/')) {
+      if (path.startsWith('/assets/') || path.startsWith('/images/')) {
         if (assets.has(path)) continue;
         const asset = await fetch(`${origin}${path}`);
         assert.equal(asset.status, 200, path);
         assert.doesNotMatch(asset.headers.get('content-type') || '', /text\/html/);
         assets.add(path);
       } else if (path.startsWith('/')) {
-        assert.ok(pages.some((entry) => entry.path === path), `Unknown navigation link: ${path}`);
+        assert.ok(path === '/hotels/' || pages.some((entry) => entry.path === path), `Unknown navigation link: ${path}`);
       }
     }
     console.log(`PASS ${page.path} -> dist/${page.html}`);
   }
   for (const path of [
+    '/hotels/?destination=Sofia&checkIn=2030-01-01&checkOut=2030-01-03&guests=2',
     '/pages/hotel/?id=example-hotel',
     '/pages/booking/?roomTypeId=example-type&checkIn=2026-11-01&checkOut=2026-11-03&guests=2',
     '/pages/booking-details/?id=example-reservation',
   ]) {
     const response = await fetch(`${origin}${path}`);
     assert.equal(response.status, 200, path);
-    const page = pages.find((entry) => entry.path === new URL(path, origin).pathname);
+    const pathname = new URL(path, origin).pathname;
+    const page = pages.find((entry) => entry.path === (pathname === '/hotels/' ? '/pages/hotels/' : pathname));
     assert.ok((await response.text()).includes(`<h1>${page.title}</h1>`));
     console.log(`PASS ${path}`);
   }

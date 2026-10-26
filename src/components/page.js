@@ -9,10 +9,14 @@ import { mountToastContainer } from './toast.js';
 import { createEmptyState } from './states.js';
 import { createHero, createFeatureStrip, createHotelCollection, createDesignPreview } from './design-preview.js';
 
-export function initializePage(parameterNames = []) {
+export function mountPageShell() {
  document.querySelector('#site-header').replaceChildren(createHeader());
  document.querySelector('#site-footer').replaceChildren(createFooter());
  mountToastContainer();
+}
+
+export function initializePage(parameterNames = []) {
+ mountPageShell();
  const content = document.querySelector('#page-content');
  const home = window.location.pathname === '/';
  const hotels = window.location.pathname === '/pages/hotels/';

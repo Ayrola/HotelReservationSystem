@@ -1,0 +1,19 @@
+# Public Home page
+
+The root Home entry now provides a booking hero, search form, featured active hotels and an explanation of one-room reservations, immediate confirmation when available and EUR payment at the hotel. The hero photograph is explicitly illustrative. No ratings, reviews, discounts or inventory claims are generated.
+
+The catalog service reads up to three active hotels, ordered by name then ID, with related room types and image metadata through the shared browser-safe Supabase client. “Featured” is a presentation selection, not a new database flag. Indicative “from” pricing is the minimum rate among active EUR room types; no availability or guest-capacity guarantee is implied. Empty, loading and recoverable error states use shared components. Search values survive loading failures and retries.
+
+Cover images use the actual `hotel_images` row marked `is_cover` and its `storage_path`. Set optional `VITE_SUPABASE_HOTEL_IMAGES_BUCKET` to the exact existing public bucket name after Storage and its policies are configured; rebuild after changing it. The service uses the installed Supabase JS 2.118-compatible `getPublicUrl` API. Without a bucket, cover metadata or a successfully loaded HTTP(S) image, cards show “Property photo unavailable”. No bucket name, image association or remote asset URL is invented. The local hero asset is not passed off as a property cover.
+
+Search accepts an optional destination and requires check-in, check-out and a safe positive integer guest count. Dates remain `YYYY-MM-DD` calendar strings; explicit UTC calendar-day arithmetic checks real dates, strictly later checkout and a 1–30-night stay without local timezone or daylight-saving shifts. The database remains authoritative for hotel-local current-date rules, capacity, quotes and availability.
+
+Successful submission navigates to `/hotels/?destination=...&checkIn=YYYY-MM-DD&checkOut=YYYY-MM-DD&guests=...` using URLSearchParams. An empty destination is omitted. Vite serves `/hotels/` as an alias of the existing `pages/hotels/index.html` in development and emits `dist/hotels/index.html` for static hosting. The source HTML stays under pages/. Existing `/pages/hotels/` links continue to work. Property links use `/pages/hotel/?id=...` and preserve each valid date and guest selection, including edits made after cards load.
+
+The Hotels and property-detail screens remain placeholders. No authentication, reservation submission, schema changes, seed execution or deployment is included in this milestone.
+
+Validation performed: three search utility tests (including leap-year and daylight-saving boundaries), nine Chromium browser tests, four configuration tests, production build and checks of all 15 entries plus the `/hotels/` alias. Browser tests exercise fixture catalog data, price labelling, safe text rendering, query preservation, error input retention, retry, empty/loading states, cover success/failure, keyboard navigation, reduced motion, and desktop/mobile axe checks and overflow. Desktop/mobile screenshots are written to ignored test-results/. Obsolete tests for the removed Home design-preview controls were replaced with public Home behavior checks.
+
+A live anonymous query using the configured publishable key succeeded and returned zero active hotels. No hosted records were created. Fixture browser tests do not claim real property imagery exists in the project. Complete Storage provisioning and upload real cover images in the separately authorized Storage milestone.
+
+Official API references checked: [Supabase nested selects](https://supabase.com/docs/reference/javascript/select), [Storage public URLs](https://supabase.com/docs/reference/javascript/file-buckets-getpublicurl), [Vite plugin API](https://vite.dev/guide/api-plugin).

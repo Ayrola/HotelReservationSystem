@@ -1,10 +1,10 @@
 # Shared design system
 
-Staywell is the interface name for the Hotel Booking System preview. The visual language uses warm neutral surfaces, dark forest-green accents, generous spacing, system body typography and serif headings. All hotel content and photography are clearly illustrative; no ratings, reviews, availability or sample prices are claimed.
+Staywell is the interface name for the Hotel Booking System. The visual language uses warm neutral surfaces, dark forest-green accents, generous spacing, system body typography and serif headings. Home loads real active catalog records and explicitly indicative prices; its hero photograph remains illustrative. Other pages remain previews. No ratings or reviews are claimed. See [Home page](home-page.md).
 
 ## Structure
 
-The home HTML entry stays at `/`. All other HTML entries now live in `pages/`, so their URLs start with `/pages/`. The existing per-page modules remain in `src/pages/`. `src/pages/entries.js` drives the Vite entry configuration and production checks.
+The home HTML entry stays at `/`. All other source HTML entries live in `pages/`, so their original URLs start with `/pages/`. `/hotels/` also serves the existing Hotels entry through a Vite development alias and a generated production HTML alias. Per-page modules remain in `src/pages/`. `src/pages/entries.js` drives the Vite entry configuration and production checks.
 
 Each page mounts shared header and footer components. Public navigation is Home, Hotels, Login and Register. Admin links are absent, including on admin placeholders. Keeping an admin URL accessible as a placeholder does not authorize future administrative operations.
 
@@ -20,10 +20,11 @@ Each page mounts shared header and footer components. Public navigation is Home,
 | states.js | Empty-state and loading skeleton factories |
 | confirmation-dialog.js | Promise-based confirmation with native modal semantics and explicit keyboard focus containment |
 | toast.js | Singleton body-level notification region and persistent, dismissible messages |
-| design-preview.js | Clearly labelled examples, illustrative hotel collection and home hero |
+| design-preview.js | Illustrative collection and reusable design examples retained for placeholder work |
+| hotel-search.js | Public destination/date/guest search with shared fields and validation |
 | page.js | Shared styles, shell mounting and placeholder page composition |
 
-Components use DOM construction and textContent for supplied text. They do not import database clients or services. The hotel-card image helper permits only HTTP(S) image URLs. Real database access remains a future service responsibility.
+Components use DOM construction and textContent for supplied text. They do not import database clients or services. The hotel-card image helper permits only HTTP(S) image URLs. Home catalog access is centralized in services/hotels.js. The shared public hotel card supports catalog pricing, real destinations, detail links and explicit image fallback; the original illustrative card remains for placeholder collections.
 
 ## Tokens and variants
 
@@ -72,7 +73,7 @@ npx playwright install chromium
 npm run check:ui
 ```
 
-Playwright uses production preview. Tests cover all 15 shells, public-only navigation, query escaping, mobile keyboard navigation, dialog focus/escape/confirmation, validation, singleton toast positioning and dismissal, loaded images, horizontal overflow and reduced motion. Axe checks the home page at desktop and mobile widths. These automated checks do not establish complete WCAG conformance or replace screen-reader evaluation. Screenshot artifacts are generated in ignored `test-results/`.
+Playwright uses production preview. Current tests cover all 15 shells, public-only navigation, query escaping, mobile keyboard navigation, search validation and selection preservation, singleton toast mounting, catalog states, image loading/fallback, horizontal overflow and reduced motion. Axe checks Home at desktop and mobile widths. Earlier dialog and notification-preview tests were tied to controls removed from Home and are no longer part of this suite. These automated checks do not establish complete WCAG conformance or replace screen-reader evaluation. Screenshot artifacts are generated in ignored `test-results/`.
 
 ## Photography and references
 
