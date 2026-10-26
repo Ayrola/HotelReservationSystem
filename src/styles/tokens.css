@@ -1,0 +1,13 @@
+﻿:root {
+ color-scheme: light;
+ --color-background:#faf9f6; --color-surface:#fff; --color-ink:#202e29; --color-muted:#58655f;
+ --color-primary:#234f41; --color-primary-hover:#163a2e; --color-soft:#e8eee7;
+ --color-danger:#a32627; --color-danger-soft:#fff0ee; --color-focus:#315fbd;
+ --color-border:#dce1d9; --color-control-border:#7c8982;
+ --font-body:'Segoe UI',system-ui,sans-serif; --font-heading:Georgia,'Times New Roman',serif;
+ --text-display:clamp(2.8rem,6vw,5rem); --text-heading:clamp(2rem,4vw,3rem); --text-small:.875rem; --line-body:1.65;
+ --space-xs:.25rem; --space-sm:.5rem; --space-md:1rem; --space-lg:1.5rem; --space-xl:3rem; --space-section:clamp(2.5rem,6vw,5rem);
+ --radius-control:.35rem; --radius-card:.75rem; --radius-pill:999px;
+ --border-subtle:1px solid var(--color-border); --shadow-card:0 5px 20px rgb(28 44 35 / 4%); --shadow-overlay:0 15px 50px rgb(28 44 35 / 18%);
+ --container-width:75rem; --bs-body-font-family:var(--font-body); --bs-body-color:var(--color-ink); --bs-body-bg:var(--color-background); --bs-border-color:var(--color-border);
+}

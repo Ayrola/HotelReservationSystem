@@ -1,0 +1,31 @@
+{
+  "name": "hotel-booking-system",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:pages": "node scripts/verify-pages.mjs",
+    "check:ui": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "SoftUni Hotel Booking System multi-page application",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "@supabase/supabase-js": "^2.118.0",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "vite": "^8.3.5"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
