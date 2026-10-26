@@ -1,0 +1,4 @@
+.auth-page { max-width:36rem; }
+.auth-switch { text-align:center; margin-top:var(--space-lg); }
+.auth-form [role='status']:empty { display:none; }
+.auth-form [role='status'] { margin-top:var(--space-lg); }

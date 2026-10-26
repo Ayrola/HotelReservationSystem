@@ -1,6 +1,6 @@
 import { element, icon } from '../utils/dom.js';
 
-// Authentication is injected by future application services, never inferred here.
+// Authentication is injected from verified application service state.
 export function createHeader({ authenticated = false, onLogout } = {}) {
   const brand = element('a', { href: '/', className: 'brand', 'aria-label': 'Staywell home' }, [icon('buildings'), element('span', { text: 'staywell' })]);
   const links = element('ul', { id: 'primary-navigation', className: 'primary-navigation' });

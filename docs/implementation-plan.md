@@ -74,7 +74,9 @@ Inspect local and remote migration histories before synchronization; reconcile d
 
 Acceptance: apply migrations to a clean test database when available. Verify guest isolation, anonymous/admin permissions, Storage access, valid dates, room relationships, cancellation rules and competing concurrent reservations. Confirm local/remote history alignment after remote application. Report unavailable remote checks explicitly.
 
-## Milestone 3 — guest authentication
+## Milestone 3 — guest authentication (implemented)
+
+User-authorized login/register pages now use Supabase Auth, safe booking return paths, email-confirmation/session handling and verified shared navigation with local logout. Existing profile/guest-role triggers reused; no migrations or role promotion. Five short Auth tests, production build and live existing-guest sign-in/profile isolation/session restoration/logout/invalid-credentials checks passed. No Playwright or real signup/email tests were run. Confirmation redirects require actual origins in the Supabase allowlist; those settings were not changed. See docs/authentication.md. Booking submission, My Bookings and Account remain outside this scope.
 
 Implement registration, login, logout, session handling and guest navigation through shared Supabase services. Handle confirmation and redirects according to actual Supabase configuration. Keep privileged operations out of browser code.
 

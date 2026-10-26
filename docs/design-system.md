@@ -54,7 +54,7 @@ showToast('Explain the result.', { tone: 'info' });
 showToast('Explain the error and recovery.', { tone: 'error' });
 ```
 
-No authentication state is simulated. All pages currently mount the public header. The authenticated variant offers My Bookings, Account and Logout; Logout is disabled if no callback is supplied. There is deliberately no admin variant until role checking exists.
+No authentication state is simulated. Pages initially mount the public header, then page composition injects server-verified Supabase user state through the session module. The authenticated variant offers My Bookings, Account and working local Logout. There is deliberately no admin variant until role checking exists. See [authentication](authentication.md).
 
 ## Accessibility behaviour
 

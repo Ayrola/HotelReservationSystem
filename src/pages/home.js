@@ -6,8 +6,10 @@ import { createEmptyState, createSkeleton } from '../components/states.js';
 import { hotelDetailsUrl } from '../utils/hotel-search.js';
 import { loadFeaturedHotels } from '../services/hotels.js';
 import '../styles/home.css';
+import { initializeSessionNavigation } from './session.js';
 
 mountPageShell();
+initializeSessionNavigation();
 const links = [];
 const search = createHotelSearch({ onChange: values => {
   for (const { link, id } of links) link.href = hotelDetailsUrl(id, values);

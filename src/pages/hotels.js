@@ -8,8 +8,10 @@ import { hotelSorts, readHotelResults, validateHotelResults, hotelResultsUrl, ho
 import { searchHotels } from '../services/hotels.js';
 import '../styles/home.css';
 import '../styles/hotel-results.css';
+import { initializeSessionNavigation } from './session.js';
 
 mountPageShell();
+initializeSessionNavigation();
 const { values, errors } = readHotelResults(window.location.search);
 const status = document.querySelector('#results-status');
 const results = document.querySelector('#hotel-results');

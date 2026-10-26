@@ -1,3 +1,2 @@
-import { initializePage } from './application.js';
-
-initializePage([]);
+import { initializeAuthPage } from './auth-page.js';
+await initializeAuthPage();

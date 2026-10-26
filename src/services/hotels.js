@@ -1,4 +1,5 @@
 import { requireSupabaseClient } from './supabase-client.js';
+import { getVerifiedUser } from './auth.js';
 
 export async function loadHotelDetails(id) {
   const client = requireSupabaseClient();
@@ -19,10 +20,7 @@ export async function loadHotelAvailability(id, values) {
   return data ?? [];
 }
 export async function hasVerifiedGuest() {
-  const { data, error } = await requireSupabaseClient().auth.getUser();
-  if (error?.name === 'AuthSessionMissingError') return false;
-  if (error) throw new Error('Your sign-in status could not be verified. Please try again.');
-  return Boolean(data.user);
+  return Boolean(await getVerifiedUser());
 }
 
 export function hotelCoverUrl(client, cover) {

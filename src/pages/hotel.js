@@ -8,8 +8,10 @@ import { readHotelDetails, validateDetailSelection, createRequestGuard, bookingD
 import { loadHotelDetails, loadHotelAvailability, hasVerifiedGuest } from '../services/hotels.js';
 import '../styles/home.css';
 import '../styles/hotel-details.css';
+import { initializeSessionNavigation } from './session.js';
 
 mountPageShell();
+initializeSessionNavigation();
 const content = document.querySelector('#page-content');
 const selection = readHotelDetails(window.location.search);
 const guard = createRequestGuard();
@@ -100,7 +102,7 @@ async function initialize() {
         element('p', { className:'property-description',text:hotel.description || 'No property description has been provided.' })]),
       search.form,status,
       element('section', { className:'section-space','aria-labelledby':'rooms-heading' }, [element('h2', { id:'rooms-heading',text:'Room types' }),
-        element('p', { className:'section-description',text:'One physical room per reservation. Prices in EUR; pay at the hotel. Login and booking screens are still being connected; Reserve continues to the appropriate screen without creating a reservation.' }),
+        element('p', { className:'section-description',text:'One physical room per reservation. Prices in EUR; pay at the hotel. Sign in to continue. The booking screen is still being connected; Reserve does not yet create a reservation.' }),
         rooms.length ? element('div', { className:'card-grid' }, rooms.map(room => room.card)) : createEmptyState({ title:'No published room types',description:'Please check back later.' })])
     );
     if (selection.duplicateSelection || Object.keys(selection.errors).length) {
