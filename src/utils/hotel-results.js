@@ -27,5 +27,5 @@ export function hotelResultsUrl(values, page = '1') {
 export function hotelResultDetailsUrl(id, values) {
   const params = new URLSearchParams(hotelResultsUrl(values, values.page).split('?')[1]);
   params.set('id', id);
-  return `/pages/hotel/?${params}`;
+  return `/hotel/?${params}`;
 }

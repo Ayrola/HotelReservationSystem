@@ -32,6 +32,7 @@ try {
   }
   for (const path of [
     '/hotels/?destination=Sofia&checkIn=2030-01-01&checkOut=2030-01-03&guests=2',
+    '/hotel/?id=example-hotel',
     '/pages/hotel/?id=example-hotel',
     '/pages/booking/?roomTypeId=example-type&checkIn=2026-11-01&checkOut=2026-11-03&guests=2',
     '/pages/booking-details/?id=example-reservation',
@@ -39,7 +40,7 @@ try {
     const response = await fetch(`${origin}${path}`);
     assert.equal(response.status, 200, path);
     const pathname = new URL(path, origin).pathname;
-    const page = pages.find((entry) => entry.path === (pathname === '/hotels/' ? '/pages/hotels/' : pathname));
+    const page = pages.find((entry) => entry.path === ({ '/hotels/':'/pages/hotels/', '/hotel/':'/pages/hotel/' }[pathname] ?? pathname));
     assert.ok((await response.text()).includes(`<h1>${page.title}</h1>`));
     console.log(`PASS ${path}`);
   }

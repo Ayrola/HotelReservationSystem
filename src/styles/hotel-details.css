@@ -1,0 +1,11 @@
+.property-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-lg); }
+.property-gallery figure { margin:0; min-width:0; }
+.property-gallery a { display:block; border-radius:var(--radius-card); overflow:hidden; }
+.property-gallery img { width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; }
+.property-gallery figcaption { color:var(--color-muted); font-size:var(--text-small); padding-block:var(--space-sm); }
+.gallery-fallback { padding:var(--space-xl); background:var(--color-soft); }
+.property-description { white-space:pre-wrap; overflow-wrap:anywhere; }
+.room-type-card { display:flex; flex-direction:column; }
+.room-type-card button { margin-top:auto; align-self:start; }
+.detail-search .search-fields { grid-template-columns:repeat(3,minmax(0,1fr)) auto; }
+@media(max-width:767px) { .property-gallery,.detail-search .search-fields { grid-template-columns:1fr; } }

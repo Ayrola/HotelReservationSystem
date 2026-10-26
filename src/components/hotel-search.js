@@ -2,7 +2,7 @@ import { element } from '../utils/dom.js';
 import { createField } from './forms.js';
 import { searchParameters, validateHotelSearch } from '../utils/hotel-search.js';
 
-export function createHotelSearch({ onChange = () => {}, navigate = url => window.location.assign(url), allowUndated = false, validate = validateHotelSearch, onSubmit } = {}) {
+export function createHotelSearch({ onChange = () => {}, navigate = url => window.location.assign(url), allowUndated = false, validate = validateHotelSearch, onSubmit, showDestination = true } = {}) {
   const initial = new URLSearchParams(window.location.search);
   const definitions = [
     ['destination', 'Destination', 'text', 'City or destination. Leave blank to explore all hotels.'],
@@ -21,14 +21,14 @@ export function createHotelSearch({ onChange = () => {}, navigate = url => windo
   const summary = element('p', { className: 'error-summary', role: 'alert', hidden: '' });
   const form = element('form', { className: 'hotel-search surface-panel', novalidate: '', 'aria-labelledby': 'search-heading' }, [
     element('h2', { id: 'search-heading', className: 'h4', text: 'Where would you like to stay?' }), summary,
-    element('div', { className: 'search-fields' }, [...Object.values(fields).map(field => field.wrapper),
+    element('div', { className: 'search-fields' }, [...Object.entries(fields).filter(([name]) => showDestination || name !== 'destination').map(([,field]) => field.wrapper),
       element('button', { type: 'submit', className: 'btn btn-primary search-submit', text: 'Search hotels' })]),
   ]);
   form.addEventListener('input', () => { summary.hidden = true; onChange(values()); });
   form.addEventListener('submit', event => {
     event.preventDefault();
     const errors = validate(values());
-    if (fields.destination.input.value.length > 100) errors.destination = 'Use at most 100 characters.';
+    if (showDestination && fields.destination.input.value.length > 100) errors.destination = 'Use at most 100 characters.';
     for (const [name, field] of Object.entries(fields)) field.setError(errors[name] ?? '');
     const names = Object.keys(errors); summary.hidden = names.length === 0;
     if (names.length) {

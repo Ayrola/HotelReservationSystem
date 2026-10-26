@@ -14,6 +14,6 @@ Applied migration: `20261026191107_hotel_search.sql`. Before application, both e
 
 Focused verification: five Node search/URL tests; local isolated PostgreSQL search-only checks covering published-state filtering, global ordering and budget, two pages and exact counts, unavailable rooms, exact totals, empty pages, invalid parameters and public data boundaries; production build. The local runner's `--search-only` flag skips the existing long integrity/concurrency suite. Live visitor RPC checks succeeded for catalog and dated searches (zero matching hotels), and invalid sort returned `22023`. No live fixtures or seed data were inserted. No Playwright or browser checks were run, as requested.
 
-The property-details page remains a placeholder. Real cover images still require the previously documented Storage bucket configuration and uploads; this milestone does not provision Storage or invent photos.
+The property-details page was subsequently implemented in the separate [details milestone](hotel-details.md). Real cover images still require the previously documented Storage bucket configuration and uploads; this results milestone does not provision Storage or invent photos.
 
 Reference checked: [Supabase JS rpc](https://supabase.com/docs/reference/javascript/rpc).

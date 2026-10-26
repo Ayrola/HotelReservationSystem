@@ -11,17 +11,20 @@ export default defineConfig(({ mode }) => {
   }
   return {
     plugins: [{
-      name: 'hotels-route-alias',
+      name: 'public-hotel-route-aliases',
       enforce: 'post',
       configureServer(server) {
         server.middlewares.use((request, response, next) => {
           if (/^\/hotels(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/hotels\/?/, '/pages/hotels/');
+          if (/^\/hotel(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/hotel\/?/, '/pages/hotel/');
           next();
         });
       },
       generateBundle(options, bundle) {
         const hotels = bundle['pages/hotels/index.html'];
         if (hotels) this.emitFile({ type: 'asset', fileName: 'hotels/index.html', source: hotels.source });
+        const hotel = bundle['pages/hotel/index.html'];
+        if (hotel) this.emitFile({ type: 'asset', fileName: 'hotel/index.html', source: hotel.source });
       },
     }],
     appType: 'mpa',

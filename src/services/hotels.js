@@ -1,5 +1,30 @@
 import { requireSupabaseClient } from './supabase-client.js';
 
+export async function loadHotelDetails(id) {
+  const client = requireSupabaseClient();
+  const { data, error } = await client.from('hotels')
+    .select('id,name,city,country,address,description,timezone,room_types(id,name,description,capacity,nightly_rate,currency,is_active),hotel_images(id,storage_path,alt_text,position,is_cover)')
+    .eq('id',id).eq('is_active',true).eq('room_types.is_active',true).maybeSingle();
+  if (error) throw new Error('Hotel details could not be loaded.');
+  if (!data) return null;
+  return { ...data, room_types: data.room_types.filter(type => type.is_active),
+    images: data.hotel_images.sort((a,b) => Number(b.is_cover)-Number(a.is_cover) || a.position-b.position || a.id.localeCompare(b.id))
+      .map(image => ({ ...image, url: hotelCoverUrl(client,image) })) };
+}
+export async function loadHotelAvailability(id, values) {
+  const { data, error } = await requireSupabaseClient().rpc('get_availability', {
+    p_hotel_id:id, p_check_in:values.checkIn,p_check_out:values.checkOut,p_guest_count:Number(values.guests),
+  });
+  if (error) throw new Error('Availability could not be checked.');
+  return data ?? [];
+}
+export async function hasVerifiedGuest() {
+  const { data, error } = await requireSupabaseClient().auth.getUser();
+  if (error?.name === 'AuthSessionMissingError') return false;
+  if (error) throw new Error('Your sign-in status could not be verified. Please try again.');
+  return Boolean(data.user);
+}
+
 export function hotelCoverUrl(client, cover) {
   const bucket = import.meta.env.VITE_SUPABASE_HOTEL_IMAGES_BUCKET?.trim();
   return bucket && cover?.storage_path ? client.storage.from(bucket).getPublicUrl(cover.storage_path).data.publicUrl : null;

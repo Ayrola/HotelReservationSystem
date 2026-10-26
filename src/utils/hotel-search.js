@@ -29,5 +29,5 @@ export function hotelDetailsUrl(id, values) {
   const params = new URLSearchParams({ id });
   for (const name of ['checkIn', 'checkOut']) if (calendarDay(values[name] ?? '') !== null) params.set(name, values[name]);
   if (/^[1-9]\d*$/.test(values.guests ?? '') && Number.isSafeInteger(Number(values.guests))) params.set('guests', values.guests);
-  return `/pages/hotel/?${params}`;
+  return `/hotel/?${params}`;
 }
