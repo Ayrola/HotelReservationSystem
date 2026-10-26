@@ -1,3 +1,3 @@
-import { initializePage } from '../components/page.js';
+import { initializePage } from './application.js';
 
 initializePage([]);

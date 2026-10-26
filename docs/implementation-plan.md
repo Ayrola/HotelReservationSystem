@@ -24,6 +24,16 @@ Agree on business rules before dependent implementation: hotel-local booking dat
 
 Acceptance: install from the lockfile, run available checks and production build, verify every HTML entry and navigation in development and built output, and check keyboard and narrow-screen usability. Do not implement booking or admin features yet.
 
+## Current milestone: 1b — Supabase client and access model
+
+Scope: inspect the intended Supabase project through configured MCP, create a shared browser-safe client and document visitor/guest/admin permissions. Do not create tables or policies.
+
+Implemented: shared client, missing-configuration feedback, build-time checks for known privileged public environment settings and docs/access-model.md. Client initialization is composed in page modules; visual components remain independent of services. No actual project URL or publishable key is configured.
+
+Checks passed: four configuration/service tests (including real SDK singleton initialization with explicit test-only values), production build, all 15 production-preview entries and seven existing browser tests. No remote database changes were made. The tested groundwork can be committed independently; live connection and remote inspection remain outstanding.
+
+Remote inspection remains blocked: configured MCP reference is ekigrflijfhlmkimevpe, but its client reports an OAuth refresh response parsing error even after successful CLI reauthentication. Remote project identity, tables and migration history are unverified. Local migrations contain only .gitkeep. Reconnect/restart Codex and finish read-only inspection before schema work. This milestone does not authorize schema changes.
+
 ## Milestone 2 — Supabase schema, access and booking integrity
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.

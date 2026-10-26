@@ -6,7 +6,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check:pages": "node scripts/verify-pages.mjs",
-    "check:ui": "playwright test"
+    "check:ui": "playwright test",
+    "check:config": "node --test scripts/supabase-config.test.js"
   },
   "keywords": [],
   "author": "",

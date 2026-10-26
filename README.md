@@ -11,6 +11,7 @@ npm ci
 npm run dev
 npm run build
 npm run check:pages
+npm run check:config
 npx playwright install chromium
 npm run check:ui
 npm run preview
@@ -30,7 +31,9 @@ These parameters are displayed as untrusted text in placeholders. They do not se
 
 ## Configuration and structure
 
-Copy `.env.example` to `.env.local` only when real Supabase configuration is available. Browser-exposed variables may contain only the project URL and a publishable key, never privileged keys. The installed Supabase SDK is intentionally not initialized in this milestone; the pages work without credentials.
+Copy `.env.example` to `.env.local` only when real Supabase configuration is available. Set `VITE_SUPABASE_URL` to the verified HTTPS project API URL and `VITE_SUPABASE_PUBLISHABLE_KEY` to its browser-safe publishable key. Restart Vite or rebuild after changes. Never use secret keys, service_role keys or database passwords in browser code or any VITE_ variable.
+
+`src/services/supabase-client.js` exports the single shared client. Without configuration it exports a null client and a clear error displayed by page composition; placeholder navigation still works. No database queries are implemented yet. Vite rejects known privileged public environment settings before bundling. See [docs/access-model.md](docs/access-model.md) for visitor, guest and admin permissions and the blocked remote inspection status. No real project URL or key has been invented or configured.
 
 - `pages`: all non-home HTML page folders, including nested administration pages. The home entry remains `index.html`.
 - `src/components`: shared page initialization and navigation behavior.
