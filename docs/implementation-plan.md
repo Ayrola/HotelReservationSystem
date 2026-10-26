@@ -24,17 +24,25 @@ Agree on business rules before dependent implementation: hotel-local booking dat
 
 Acceptance: install from the lockfile, run available checks and production build, verify every HTML entry and navigation in development and built output, and check keyboard and narrow-screen usability. Do not implement booking or admin features yet.
 
-## Current milestone: 1b — Supabase client and access model
+## Milestone 1b — Supabase client and access model (completed)
 
 Scope: inspect the intended Supabase project through configured MCP, create a shared browser-safe client and document visitor/guest/admin permissions. Do not create tables or policies.
 
-Implemented: shared client, missing-configuration feedback, build-time checks for known privileged public environment settings and docs/access-model.md. Client initialization is composed in page modules; visual components remain independent of services. No actual project URL or publishable key is configured.
+Implemented: shared client, missing-configuration feedback, build-time checks for known privileged public environment settings and docs/access-model.md. Client initialization is composed in page modules; visual components remain independent of services. The actual project URL and publishable key are now configured in ignored .env.local after MCP reconnection.
 
-Checks passed: four configuration/service tests (including real SDK singleton initialization with explicit test-only values), production build, all 15 production-preview entries and seven existing browser tests. No remote database changes were made. The tested groundwork can be committed independently; live connection and remote inspection remain outstanding.
+Checks passed: four configuration/service tests (including real SDK singleton initialization with explicit test-only values), production build, all 15 production-preview entries and seven existing browser tests. Live visitor reads/denials were verified after the subsequent database migration.
 
-Remote inspection remains blocked: configured MCP reference is ekigrflijfhlmkimevpe, but its client reports an OAuth refresh response parsing error even after successful CLI reauthentication. Remote project identity, tables and migration history are unverified. Local migrations contain only .gitkeep. Reconnect/restart Codex and finish read-only inspection before schema work. This milestone does not authorize schema changes.
+The earlier OAuth inspection blocker was resolved after reconnecting. Live MCP verified project reference ekigrflijfhlmkimevpe and the project API URL. Initial inspection found no application tables/migrations and zero Auth users. The actual URL and publishable key are now configured in ignored .env.local. Live visitor permissions were verified after the authorized schema migration.
 
-## Milestone 2 — Supabase schema, access and booking integrity
+## Current milestone: 2a — initial database migration (applied and verified)
+
+The user-authorized initial schema was applied through Supabase MCP as version 20261026182841, initial_hotel_schema. Local filename and normalized SQL hash match remote history. All eight tables, RLS, least-privilege grants, safe signup/backfill, integrity triggers, overlap/idempotency constraints and immutable snapshots/audit history are implemented. See docs/database.md.
+
+Local PostgreSQL 17 tests passed, including two competing reservation transactions. Live schema/grants introspection, visitor API permissions and Supabase security advisor checks passed. Build, page/configuration/UI checks also passed. No remote fixtures or test users were added.
+
+Aggregate availability and reservation creation/cancellation/admin RPCs and Storage object policies remain deferred. No booking or admin UI feature is authorized by this migration. Continue only with the next user-directed scope.
+
+## Milestone 2b — authorized booking operations and storage policies
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.
 

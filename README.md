@@ -12,6 +12,7 @@ npm run dev
 npm run build
 npm run check:pages
 npm run check:config
+npm run check:db
 npx playwright install chromium
 npm run check:ui
 npm run preview
@@ -33,7 +34,7 @@ These parameters are displayed as untrusted text in placeholders. They do not se
 
 Copy `.env.example` to `.env.local` only when real Supabase configuration is available. Set `VITE_SUPABASE_URL` to the verified HTTPS project API URL and `VITE_SUPABASE_PUBLISHABLE_KEY` to its browser-safe publishable key. Restart Vite or rebuild after changes. Never use secret keys, service_role keys or database passwords in browser code or any VITE_ variable.
 
-`src/services/supabase-client.js` exports the single shared client. Without configuration it exports a null client and a clear error displayed by page composition; placeholder navigation still works. No database queries are implemented yet. Vite rejects known privileged public environment settings before bundling. See [docs/access-model.md](docs/access-model.md) for visitor, guest and admin permissions and the blocked remote inspection status. No real project URL or key has been invented or configured.
+`src/services/supabase-client.js` exports the single shared client. Without configuration it exports a null client and a clear error displayed by page composition; placeholder navigation still works. No database queries are implemented yet. Vite rejects known privileged public environment settings before bundling. See [docs/access-model.md](docs/access-model.md) for visitor, guest and admin permissions and current verified remote state. The real project URL and publishable key returned by MCP are configured only in ignored .env.local.
 
 - `pages`: all non-home HTML page folders, including nested administration pages. The home entry remains `index.html`.
 - `src/components`: shared page initialization and navigation behavior.
@@ -45,14 +46,16 @@ Copy `.env.example` to `.env.local` only when real Supabase configuration is ava
 - `scripts`: repeatable verification.
 - `docs`: implementation plan and project documentation.
 
-Bootstrap CSS and Bootstrap Icons are bundled by Vite. Navigation uses a shared keyboard-accessible mobile toggle. Popper is installed for future Bootstrap components that need it. No CDN dependency or SPA router is used. `dist/` and local environment files are ignored. The lockfile is committed when Git becomes available.
+Bootstrap CSS and Bootstrap Icons are bundled by Vite. Navigation uses a shared keyboard-accessible mobile toggle. Popper is installed for future Bootstrap components that need it. No CDN dependency or SPA router is used. `dist/` and local environment files are ignored. The npm lockfile is tracked in Git.
 
 The shared design system is documented in [docs/design-system.md](docs/design-system.md). The home page includes clearly labelled examples of reusable cards, controls, validation, dialog, notifications and loading/empty states. No real reservations or authentication actions are offered. `check:ui` runs Chromium tests against production preview, including mobile keyboard interaction and automated accessibility checks.
 
-Future Render Static Site settings: build with `npm ci && npm run build`, publish `dist`. No SPA fallback rewrite is needed. No deployment or Supabase project is configured by this milestone.
+Future Render Static Site settings: build with `npm ci && npm run build`, publish `dist`. No SPA fallback rewrite is needed. No Render deployment is configured. The Supabase client and initial database migration are configured; see [docs/database.md](docs/database.md).
 
 ## References checked for installed versions
 
 - [Vite 8 build options](https://v8.vite.dev/config/build-options) and [shared input option](https://v8.vite.dev/config/shared-options).
 - [Bootstrap 5.3 JavaScript and dependencies](https://getbootstrap.com/docs/5.3/getting-started/javascript/).
 - [Supabase JavaScript SDK installation](https://supabase.com/docs/reference/javascript/installing).
+
+Database checks require PostgreSQL binaries. `npm run check:db` starts an isolated temporary local instance with a minimal Supabase Auth fixture; it never targets the remote project. Set POSTGRES_BIN if needed.
