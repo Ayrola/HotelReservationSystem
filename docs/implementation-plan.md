@@ -50,6 +50,10 @@ Checks passed: original schema tests, engine SQL tests, eight RPC concurrency sc
 
 Booking/login UI, Storage policies and broader admin reservation operations remain outside this milestone. Await the next user-directed scope.
 
+## Milestone 2b-seed — dedicated demo seed (implemented)
+
+User-authorized server-only Node seed with explicit target reference confirmation, Auth Admin account creation, one configured seed-owned admin, fictional Bulgarian catalog, future fixture bookings, read-only dry-run and resumable counts. See docs/demo-seed.md. No schema/migration changes, Storage provisioning or hosted seed execution were performed. Six seed tests, four configuration tests and the production build passed. Hosted counts await operator execution with dedicated demo credentials. Storage images remain deferred with existing local assets reported. This scope does not authorize the next milestone.
+
 ## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.
