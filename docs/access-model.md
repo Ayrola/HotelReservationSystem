@@ -8,7 +8,8 @@ This document specifies application permissions. The initial schema and restrict
 - Live MCP confirmed reference: `ekigrflijfhlmkimevpe` and API URL: `https://ekigrflijfhlmkimevpe.supabase.co`.
 - Initial inspection: no application tables/migrations and zero Auth users.
 - Applied migration: `20261026182841_initial_hotel_schema.sql`. All eight requested tables now exist with RLS.
-- Local/remote version, name and normalized SQL hash match. See docs/database.md for the verification record.
+- Booking-engine migration: `20261026184448_booking_engine.sql`, providing public aggregate quotes and authorized creation/cancellation RPCs. See docs/booking-engine.md.
+- Both local/remote versions, names and normalized SQL hashes match. See docs/database.md and docs/booking-engine.md for the verification records.
 - MCP and CLI OAuth authentication now work. Prior OAuth refresh failures were resolved after reconnecting.
 
 Continue to inspect both migration histories before future schema work. Use browser-safe publishable configuration only; privileged development credentials remain separate.
@@ -58,6 +59,6 @@ The actual API URL and active publishable key returned by MCP are configured in 
 
 Supabase MCP OAuth credentials, database administration tools and any future deployment credentials belong to the developer environment only. They are not application authentication and must never be copied into VITE_ variables, browser source, public assets or logs. MCP's ability to inspect a database does not prove that a visitor or guest can access it through the browser SDK.
 
-The initial migration creates the tables and restricted policies. No aggregate availability or reservation-mutation RPCs are exposed yet; those permissions require narrow operations in later migrations. No Storage bucket or object policy was created. Future permission checks must use visitor, guest and admin application contexts, including negative tests; privileged MCP queries alone cannot validate RLS.
+The initial migration creates the tables and restricted policies. The booking-engine migration exposes get_availability to visitors/guests and create_booking/cancel_booking to authenticated callers, with explicit identity, ownership and admin checks. Guests can cancel only before the hotel-local check-in date. A private deny-by-default request ledger supplies per-user idempotency. Direct reservation/event writes remain forbidden. No Storage bucket or object policy was created. Future permission checks must use visitor, guest and admin application contexts, including negative tests; privileged MCP queries alone cannot validate RLS.
 
 References verified for Supabase JS 2.118.0: [client initialization](https://supabase.com/docs/reference/javascript/initializing), [publishable and secret keys](https://supabase.com/docs/guides/getting-started/api-keys), and [MCP inspection tools](https://supabase.com/docs/guides/ai-tools/mcp).

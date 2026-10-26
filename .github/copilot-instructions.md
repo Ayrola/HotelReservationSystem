@@ -67,3 +67,9 @@ The user authorizes milestone commits and pushes. Never force-push, backdate com
 - Hide all Admin navigation until role checking is implemented. Clearly label illustrative content and unavailable features; never fabricate hotel reviews, ratings or live availability.
 - Mount exactly one top-right toast container directly under document.body. Use the shared accessible confirmation dialog, validation and feedback components.
 - Preserve keyboard operation, visible focus, accessible contrast, responsive layouts and reduced-motion support. See docs/design-system.md.
+
+## Booking engine conventions
+
+- Use hotel-local calendar dates and half-open stays of 1–30 nights. Confirmed bookings block availability; cancelled bookings do not. Guests may cancel only before the local check-in date.
+- Route application reservation writes through create_booking/cancel_booking. Derive identity and exact EUR prices server-side; retain exclusion constraints and private request-ledger authorization.
+- Retry busy requests with the identical payload and request ID. Use a new ID for changed selections or an accepted re-quote. See docs/booking-engine.md for the RPC contract and checks.

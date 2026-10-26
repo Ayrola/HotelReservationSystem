@@ -4,11 +4,13 @@ Project: HotelReservationSystem (user-supplied name), reference `ekigrflijfhlmki
 
 ## Applied state
 
+This section records the initial migration. The subsequent applied booking-engine migration and current two-entry history are documented in [booking-engine.md](booking-engine.md).
+
 Before applying, MCP inspection found no tables in public/private, no migration history, zero Auth users and PostgreSQL 17.11. No existing application data was replaced.
 
 Applied through Supabase MCP `apply_migration` as `initial_hotel_schema`. The server recorded version `20261026182841`. The local file is [20261026182841_initial_hotel_schema.sql](../supabase/migrations/20261026182841_initial_hotel_schema.sql). Its filename was aligned with the server-assigned version after application; the applied SQL was not changed.
 
-Both local and remote histories contain this one migration. Normalized SQL MD5 (line endings and surrounding whitespace normalized) is `bc0fe8c38c01f9d69a28593b0ab491c4` on both sides. The remote history stores the same SQL as one statement entry. Use migration tooling for subsequent changes; never edit this applied file or repair history to conceal differences.
+At initial application, both local and remote histories contained this one migration. Normalized SQL MD5 (line endings and surrounding whitespace normalized) is `bc0fe8c38c01f9d69a28593b0ab491c4` on both sides. The remote history stores the same SQL as one statement entry. Use migration tooling for subsequent changes; never edit this applied file or repair history to conceal differences.
 
 ## Schema and invariants
 
@@ -30,7 +32,7 @@ Both local and remote histories contain this one migration. Normalized SQL MD5 (
 
 Visitors read only published catalog rows; they cannot read bookings, profiles, roles, physical rooms or audit events. Guests read their own profile/role/bookings. Admins manage catalog and physical rooms and read all reservations and audit events, without blanket profile access or direct booking mutation.
 
-Aggregate availability, booking creation, eligible cancellation and supported admin reservation RPCs are **not exposed yet**. Their implementation must define date/occupancy/cancellation policies, authorize callers, preserve the constraints and avoid leaking inventory. This initial migration intentionally keeps all reservation writes closed to browser roles. No permissive bypass policy was added.
+The initial migration keeps direct reservation writes closed to browser roles. The subsequent [booking-engine migration](booking-engine.md) adds aggregate availability, authorized creation and owner/admin cancellation through narrow RPCs. Direct-write grants remain revoked and no permissive bypass policy was added. Broader reservation administration remains future work.
 
 This migration covers image metadata. Storage buckets, object upload/publication policies and asset administration remain a separate migration; no public bucket was created.
 

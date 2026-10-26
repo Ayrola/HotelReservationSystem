@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve, dirname, basename } from 'node:path';
 import { createServer } from 'node:net';
 import assert from 'node:assert/strict';
+import { verifyBookingConcurrency } from './booking-engine-concurrency.mjs';
 
 // An isolated loopback-only PostgreSQL instance. Never connects to the remote project.
 const bin = process.env.POSTGRES_BIN || (process.platform === 'win32' ? 'C:/Program Files/PostgreSQL/17/bin' : '');
@@ -16,7 +17,7 @@ const port = listener.address().port;
 await new Promise((resolve) => listener.close(resolve));
 const base = ['-X', '-h', '127.0.0.1', '-p', String(port), '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-v', 'VERBOSITY=verbose', '-qAt'];
 function query(sql) {
-  const child = spawn(executable('psql'), base, { windowsHide: true, env: { ...process.env, PGCLIENTENCODING: 'UTF8' } });
+  const child = spawn(executable('psql'), base, { windowsHide: true, env: { ...process.env, PGCLIENTENCODING: 'UTF8', PGOPTIONS: '-c statement_timeout=15000' } });
   let stdout = '', stderr = '';
   child.stdout.on('data', (chunk) => { stdout += chunk; });
   child.stderr.on('data', (chunk) => { stderr += chunk; });
@@ -54,9 +55,14 @@ try {
   for (const file of (await readdir(directory)).filter((file) => file.endsWith('.sql')).sort()) {
     await mustQuery(`begin;\n${await readFile(new URL(file, directory), 'utf8')}\ncommit;`);
     console.log(`PASS migration ${file}`);
+    if (file.endsWith('_initial_hotel_schema.sql')) {
+      const checks = await mustQuery(await readFile(new URL('../supabase/tests/initial_schema.sql', import.meta.url), 'utf8'));
+      console.log(checks.split(/\r?\n/).filter((line) => line.startsWith('PASS:')).join('\n'));
+    }
   }
-  const checks = await mustQuery(await readFile(new URL('../supabase/tests/initial_schema.sql', import.meta.url), 'utf8'));
-  console.log(checks.split(/\r?\n/).filter((line) => line.startsWith('PASS:')).join('\n'));
+  const engineChecks = await mustQuery(await readFile(new URL('../supabase/tests/booking_engine.sql', import.meta.url), 'utf8'));
+  console.log(engineChecks.split(/\r?\n/).filter((line) => line.startsWith('PASS:')).join('\n'));
+  await verifyBookingConcurrency({ query, mustQuery });
   const booking = (request) => `insert into public.bookings(user_id,room_id,check_in,check_out,guest_count,guest_name,contact_phone,request_id)
     values ('10000000-0000-0000-0000-000000000001','30000000-0000-0000-0000-000000000001','2040-01-01','2040-01-03',1,'Test guest','test phone','${request}');`;
   const first = query(`begin; ${booking('40000000-0000-0000-0000-000000000001')} select 'CONCURRENCY_READY'; select pg_sleep(2); commit;`);

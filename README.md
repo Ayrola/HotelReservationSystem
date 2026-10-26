@@ -1,6 +1,6 @@
 ﻿# Hotel Booking System
 
-SoftUni “Software Technologies with AI” capstone. Current implementation: multi-page placeholders and normal link navigation only. Authentication, database access, booking and administration are not implemented.
+SoftUni “Software Technologies with AI” capstone. The interface contains multi-page placeholders and normal link navigation. Supabase client configuration, the database schema and the SQL booking engine are implemented. Login, catalog queries, booking forms and administration are not yet wired into the interface.
 
 ## Local setup
 
@@ -59,3 +59,5 @@ Future Render Static Site settings: build with `npm ci && npm run build`, publis
 - [Supabase JavaScript SDK installation](https://supabase.com/docs/reference/javascript/installing).
 
 Database checks require PostgreSQL binaries. `npm run check:db` starts an isolated temporary local instance with a minimal Supabase Auth fixture; it never targets the remote project. Set POSTGRES_BIN if needed.
+
+The SQL booking engine is applied and documented in [docs/booking-engine.md](docs/booking-engine.md): public aggregate availability/quotes, authenticated creation with server pricing and idempotency, and owner/admin cancellation. The page UI remains placeholders; these server operations are not yet connected to booking forms.

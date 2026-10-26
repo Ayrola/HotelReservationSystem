@@ -34,7 +34,7 @@ Checks passed: four configuration/service tests (including real SDK singleton in
 
 The earlier OAuth inspection blocker was resolved after reconnecting. Live MCP verified project reference ekigrflijfhlmkimevpe and the project API URL. Initial inspection found no application tables/migrations and zero Auth users. The actual URL and publishable key are now configured in ignored .env.local. Live visitor permissions were verified after the authorized schema migration.
 
-## Current milestone: 2a — initial database migration (applied and verified)
+## Milestone 2a — initial database migration (applied and verified)
 
 The user-authorized initial schema was applied through Supabase MCP as version 20261026182841, initial_hotel_schema. Local filename and normalized SQL hash match remote history. All eight tables, RLS, least-privilege grants, safe signup/backfill, integrity triggers, overlap/idempotency constraints and immutable snapshots/audit history are implemented. See docs/database.md.
 
@@ -42,7 +42,15 @@ Local PostgreSQL 17 tests passed, including two competing reservation transactio
 
 Aggregate availability and reservation creation/cancellation/admin RPCs and Storage object policies remain deferred. No booking or admin UI feature is authorized by this migration. Continue only with the next user-directed scope.
 
-## Milestone 2b — authorized booking operations and storage policies
+## Current milestone: 2b — server-side booking engine (applied and verified)
+
+Applied booking_engine migration 20261026184448 after local PostgreSQL tests. Local and remote versions/names/SQL hashes match. Public aggregate availability/quotes, authenticated create_booking and owner/admin cancel_booking are implemented. Exact numeric pricing, active inventory, 1–30 hotel-local nights, capacity, stale-quote rejection, private request-ledger idempotency, room locking, bounded retries, preserved exclusion protection and server-generated cancellation events are enforced.
+
+Checks passed: original schema tests, engine SQL tests, eight RPC concurrency scenarios plus the raw overlapping-insert race, live RPC permissions/validation, remote grants/function introspection, build, 15 production entries and four configuration tests. The advisor's sole informational notice is intentional deny-by-default RLS on private.booking_requests. No hosted fixtures or test users were created. See docs/booking-engine.md.
+
+Booking/login UI, Storage policies and broader admin reservation operations remain outside this milestone. Await the next user-directed scope.
+
+## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.
 
