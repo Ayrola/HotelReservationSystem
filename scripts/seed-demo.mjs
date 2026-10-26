@@ -15,7 +15,7 @@ export function configuration(env, args) {
   }
   const ref = env.DEMO_PROJECT_REF;
   if (!/^[a-z]{20}$/.test(ref ?? '') || env.DEMO_CONFIRM_PROJECT_REF !== ref) {
-    throw new SeedError('Set matching DEMO_PROJECT_REF and DEMO_CONFIRM_PROJECT_REF for the dedicated demo project.');
+    throw new SeedError('Set matching DEMO_PROJECT_REF and DEMO_CONFIRM_PROJECT_REF for the intended project.');
   }
   const url = `https://${ref}.supabase.co`;
   const key = env.DEMO_SUPABASE_SECRET_KEY;
@@ -30,7 +30,7 @@ export function configuration(env, args) {
     throw new SeedError('DEMO_ADMIN_EMAIL must be an explicit non-guest address at example.invalid.');
   }
   for (const name of ['DEMO_GUEST_PASSWORD', 'DEMO_ADMIN_PASSWORD']) {
-    if ((env[name]?.length ?? 0) < 16) throw new SeedError(`${name} must contain at least 16 characters.`);
+    if ((env[name]?.length ?? 0) < 6) throw new SeedError(`${name} must contain at least 6 characters. The project's Auth password policy also applies.`);
   }
   return { url, key, adminEmail, guestPassword: env.DEMO_GUEST_PASSWORD,
     adminPassword: env.DEMO_ADMIN_PASSWORD, dryRun: args[0] === '--dry-run' };

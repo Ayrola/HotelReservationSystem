@@ -1,6 +1,6 @@
 # Dedicated demo seed
 
-Run only against a dedicated disposable demo project with both committed migrations already applied. This script does not change schema or migration history. Verify the project reference in the Supabase dashboard; do not assume the application's configured project is a demo project.
+Prefer a dedicated disposable demo project with the committed migrations applied. The user subsequently explicitly authorized execution against the configured production project. This script does not change schema or migration history. Always verify and confirm the intended project reference.
 
 Use Node 22.15+ and `npm ci`. Supply the following through a server secret manager or an ignored `.env.seed.local` file at the repository root. Never use `VITE_` variables for these values, put the file under public/, commit it, paste secrets into commands, or run the seed in the browser or Render static-site build.
 
@@ -9,8 +9,8 @@ DEMO_PROJECT_REF=<dedicated-demo-project-reference>
 DEMO_CONFIRM_PROJECT_REF=<same-dedicated-demo-project-reference>
 DEMO_SUPABASE_SECRET_KEY=<server-secret-or-service-role-key>
 DEMO_ADMIN_EMAIL=<chosen-admin-name>@example.invalid
-DEMO_ADMIN_PASSWORD=<unique-strong-password-at-least-16-characters>
-DEMO_GUEST_PASSWORD=<strong-demo-password-at-least-16-characters>
+DEMO_ADMIN_PASSWORD=<configured-demo-password-at-least-6-characters>
+DEMO_GUEST_PASSWORD=<configured-demo-password-at-least-6-characters>
 ```
 
 The project URL is derived exclusively from the required reference. The confirmation reference must match. Legacy service-role JWTs must also contain that reference; opaque secret keys are validated by the target API. The script never loads frontend `.env.local` or prints keys, passwords, emails or raw SDK errors. Use a trusted key copied from this project's dashboard.
@@ -29,7 +29,9 @@ npm run seed:demo -- --dry-run
 npm run seed:demo -- --execute
 ```
 
-Exactly one mode is required. Dry-run connects to the target and reads Auth users and application rows, but performs no writes. It needs valid server credentials. Counters distinguish actual `created`, `skipped`, `promoted`, `wouldCreate` and `wouldPromote`; dry-run creates zero records. Counts print even on partial failure, with a nonzero exit code. No live execution was performed during implementation: actual hosted created/skipped counts are unavailable until the operator runs the script.
+Exactly one mode is required. Dry-run connects to the target and reads Auth users and application rows, but performs no writes. It needs valid server credentials. Counters distinguish actual `created`, `skipped`, `promoted`, `wouldCreate` and `wouldPromote`; dry-run creates zero records. Counts print even on partial failure, with a nonzero exit code.
+
+On 2026-10-26, following explicit production authorization, a successful dry-run preceded execution against the configured production project. Actual counts: 4 accounts, 3 hotels, 9 room types, 27 rooms and 27 bookings created; zero seed records skipped; 1 configured admin promoted. Three trigger-created guest roles were already present and skipped by role provisioning. Images were not uploaded. Passwords were supplied through the ignored server environment, with a user-directed shorter demo password; minimum script length is now 6 characters and the target Auth policy still applies. No existing passwords were reset. No credentials are recorded here.
 
 ## Dataset and reruns
 
