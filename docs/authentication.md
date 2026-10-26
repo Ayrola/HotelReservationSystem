@@ -16,7 +16,7 @@ Login/register links retain a validated `next` return URL, including booking dat
 
 Page composition now observes Supabase auth events and injects verified state into the shared header. SDK callbacks schedule `getUser` outside the Auth lock, and sequence checks ignore outdated verification results. Session values alone do not grant authenticated navigation. The existing client persists/refreshes its session using the SDK's browser storage behavior. Header state updates after login, logout, refresh and cross-tab SDK events. Admin navigation remains hidden; no browser self-promotion or role-writing path exists.
 
-Verified users see My Bookings, Account and Logout. Logout uses `signOut({ scope: 'local' })`, clears the current browser session through the SDK and returns to Login. Failures use the shared toast. My Bookings, Account and booking submission remain placeholders outside this scope; UI visibility never substitutes for database authorization.
+Verified users see My Bookings, Account and Logout. Logout uses `signOut({ scope: 'local' })`, clears the current browser session through the SDK and returns to Login. Failures use the shared toast. My Bookings and Account remain placeholders. Booking submission was subsequently implemented in the [booking milestone](booking-pages.md); UI visibility never substitutes for database authorization.
 
 ## Checks actually performed
 

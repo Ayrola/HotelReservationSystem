@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => {
         server.middlewares.use((request, response, next) => {
           if (/^\/hotels(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/hotels\/?/, '/pages/hotels/');
           if (/^\/hotel(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/hotel\/?/, '/pages/hotel/');
+          if (/^\/booking(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/booking\/?/, '/pages/booking/');
+          if (/^\/booking-confirmation(?:\/|\?|$)/.test(request.url)) request.url = request.url.replace(/^\/booking-confirmation\/?/, '/pages/booking-confirmation/');
           next();
         });
       },
@@ -25,6 +27,10 @@ export default defineConfig(({ mode }) => {
         if (hotels) this.emitFile({ type: 'asset', fileName: 'hotels/index.html', source: hotels.source });
         const hotel = bundle['pages/hotel/index.html'];
         if (hotel) this.emitFile({ type: 'asset', fileName: 'hotel/index.html', source: hotel.source });
+        for(const name of ['booking','booking-confirmation']) {
+          const entry=bundle[`pages/${name}/index.html`];
+          if(entry) this.emitFile({type:'asset',fileName:`${name}/index.html`,source:entry.source});
+        }
       },
     }],
     appType: 'mpa',

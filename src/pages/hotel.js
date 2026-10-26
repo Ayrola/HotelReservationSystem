@@ -102,7 +102,7 @@ async function initialize() {
         element('p', { className:'property-description',text:hotel.description || 'No property description has been provided.' })]),
       search.form,status,
       element('section', { className:'section-space','aria-labelledby':'rooms-heading' }, [element('h2', { id:'rooms-heading',text:'Room types' }),
-        element('p', { className:'section-description',text:'One physical room per reservation. Prices in EUR; pay at the hotel. Sign in to continue. The booking screen is still being connected; Reserve does not yet create a reservation.' }),
+        element('p', { className:'section-description',text:'One physical room per reservation. Prices in EUR; pay at the hotel. Reserve takes you to a review page before you confirm a reservation.' }),
         rooms.length ? element('div', { className:'card-grid' }, rooms.map(room => room.card)) : createEmptyState({ title:'No published room types',description:'Please check back later.' })])
     );
     if (selection.duplicateSelection || Object.keys(selection.errors).length) {

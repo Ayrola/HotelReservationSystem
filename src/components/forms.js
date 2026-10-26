@@ -3,7 +3,7 @@ import { element } from '../utils/dom.js';
 export function createField({ id, label, type = 'text', help = '', required = false }) {
   const errorId = `${id}-error`;
   const helpId = `${id}-help`;
-  const input = element('input', { id, name: id, type, className: 'form-control', 'aria-describedby': `${helpId} ${errorId}` });
+  const input = element(type === 'textarea' ? 'textarea' : 'input', { id, name: id, type: type === 'textarea' ? undefined : type, className: 'form-control', 'aria-describedby': `${helpId} ${errorId}` });
   input.required = required;
   const error = element('p', { id: errorId, className: 'field-error', hidden: '' });
   const wrapper = element('div', { className: 'form-field' }, [

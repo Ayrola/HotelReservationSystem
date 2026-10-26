@@ -1,6 +1,6 @@
 import { pages } from '../pages/entries.js';
 
-const destinations = new Set([...pages.map(page => page.path), '/hotel/', '/hotels/']);
+const destinations = new Set([...pages.map(page => page.path), '/hotel/', '/hotels/', '/booking/', '/booking-confirmation/']);
 destinations.delete('/pages/login/'); destinations.delete('/pages/register/');
 export function safeAuthReturn(value, fallback = '/hotels/') {
   if (!value || value.length > 4096 || !value.startsWith('/') || value.startsWith('//') || /[\\\u0000-\u001f\u007f]/.test(value)) return fallback;

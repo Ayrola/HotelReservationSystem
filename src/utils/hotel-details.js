@@ -25,6 +25,6 @@ export function bookingDestination(hotelId, typeId, values, quote, authenticated
   const params = new URLSearchParams({ hotelId, roomTypeId: typeId, checkIn: values.checkIn,
     checkOut: values.checkOut, guests: values.guests, expectedNightlyRate: String(quote.nightly_rate),
     expectedTotalPrice: String(quote.total_price), currency: 'EUR' });
-  const booking = `/pages/booking/?${params}`;
+  const booking = `/booking/?${params}`;
   return authenticated ? booking : `/pages/login/?${new URLSearchParams({ next: booking })}`;
 }

@@ -12,7 +12,7 @@ export function createHeader({ authenticated = false, onLogout } = {}) {
     links.append(element('li', {}, [link]));
   }
   if (authenticated) {
-    const logout = element('button', { type: 'button', className: 'btn btn-outline-primary', text: 'Logout' });
+    const logout = element('button', { type: 'button', className: 'btn btn-outline-primary', text: 'Logout', 'data-logout':'' });
     logout.disabled = typeof onLogout !== 'function';
     if (onLogout) logout.addEventListener('click', onLogout);
     links.append(element('li', {}, [logout]));

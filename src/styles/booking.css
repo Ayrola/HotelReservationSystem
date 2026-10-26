@@ -1,0 +1,5 @@
+.booking-layout { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-lg); align-items:start; }
+.booking-summary { display:grid; grid-template-columns:1fr 1.5fr; gap:var(--space-sm) var(--space-md); }
+.booking-summary dd { margin:0; }
+.booking-form textarea { min-height:8rem; }
+@media(max-width:767px) { .booking-layout { grid-template-columns:1fr; } .booking-summary { grid-template-columns:1fr; } .booking-summary dd { margin-bottom:var(--space-sm); } }

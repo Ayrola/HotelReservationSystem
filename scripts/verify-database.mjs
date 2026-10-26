@@ -6,6 +6,8 @@ import { createServer } from 'node:net';
 import assert from 'node:assert/strict';
 import { verifyBookingConcurrency } from './booking-engine-concurrency.mjs';
 const searchOnly = process.argv.includes('--search-only');
+const bookingUiOnly = process.argv.includes('--booking-ui-only');
+const focused = searchOnly || bookingUiOnly;
 
 // An isolated loopback-only PostgreSQL instance. Never connects to the remote project.
 const bin = process.env.POSTGRES_BIN || (process.platform === 'win32' ? 'C:/Program Files/PostgreSQL/17/bin' : '');
@@ -56,13 +58,13 @@ try {
   for (const file of (await readdir(directory)).filter((file) => file.endsWith('.sql')).sort()) {
     await mustQuery(`begin;\n${await readFile(new URL(file, directory), 'utf8')}\ncommit;`);
     console.log(`PASS migration ${file}`);
-    if (!searchOnly && file.endsWith('_initial_hotel_schema.sql')) {
+    if (!focused && file.endsWith('_initial_hotel_schema.sql')) {
       const checks = await mustQuery(await readFile(new URL('../supabase/tests/initial_schema.sql', import.meta.url), 'utf8'));
       console.log(checks.split(/\r?\n/).filter((line) => line.startsWith('PASS:')).join('\n'));
     }
   }
-  console.log(await mustQuery(await readFile(new URL('../supabase/tests/hotel_search.sql', import.meta.url), 'utf8')));
-  if (!searchOnly) {
+  console.log(await mustQuery(await readFile(new URL(bookingUiOnly?'../supabase/tests/booking_submission.sql':'../supabase/tests/hotel_search.sql', import.meta.url), 'utf8')));
+  if (!focused) {
   const engineChecks = await mustQuery(await readFile(new URL('../supabase/tests/booking_engine.sql', import.meta.url), 'utf8'));
   console.log(engineChecks.split(/\r?\n/).filter((line) => line.startsWith('PASS:')).join('\n'));
   await verifyBookingConcurrency({ query, mustQuery });

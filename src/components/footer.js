@@ -7,6 +7,6 @@ export function createFooter() {
       element('nav', { 'aria-label': 'Footer navigation', className: 'footer-links' }, [element('a', { href: '/pages/hotels/', text: 'Explore hotels' }), element('a', { href: '/pages/login/', text: 'Login' }), element('a', { href: '/pages/register/', text: 'Register' })]),
       element('p', { className: 'payment-note' }, [icon('credit-card'), document.createTextNode(' EUR · Pay at the hotel')]),
     ]),
-    element('div', { className: 'page-container footer-bottom', text: 'SoftUni capstone · Placeholder platform. Reservations are not available yet.' }),
+    element('div', { className: 'page-container footer-bottom', text: 'SoftUni capstone · One room per reservation · Pay at the hotel' }),
   ]);
 }

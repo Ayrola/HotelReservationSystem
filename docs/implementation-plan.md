@@ -66,6 +66,10 @@ User-authorized results scope: editable search, validated URL state, dated avail
 
 User-authorized `/hotel/?id=...` scope: published catalog, accessible linked-image gallery, room-type cards, local-calendar selection, property-wide availability rechecks with stale-response protection and eligible Reserve navigation preserving quote context. No room allocation, payment, auth-screen or booking-screen implementation. Existing migrations/RLS/RPCs reused without database changes. Nine short Node tests, production build and targeted live public catalog/availability checks passed. No Playwright or long checks, per user direction. See docs/hotel-details.md for behavior and remaining Storage/login/booking limitations.
 
+## Milestone Booking pages — authenticated review and persisted confirmation (implemented)
+
+User-authorized `/booking/` and `/booking-confirmation/`: fresh quotes, guest fields with optional phone, transactional creation, immutable attempt IDs, duplicate protection, storage-backed reconciliation/replay, re-quote acceptance, custom discard dialog/toasts and authorized persisted confirmation. Optional-phone migration 20261026194125 applied after aligned history and focused local SQL checks. Short Node tests, build and live owner/isolation reads passed; no live test bookings, Playwright or long suite. See docs/booking-pages.md. Details/history/cancellation UI remain outside this scope.
+
 ## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.

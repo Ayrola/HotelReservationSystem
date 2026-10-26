@@ -26,6 +26,8 @@ Counts and quotes are observations, not inventory holds. Creation rechecks curre
 
 ## Authenticated creation
 
+The later [booking-page milestone](booking-pages.md) adds the optional-phone migration: an empty phone string is now accepted, while null and values over 40 trimmed characters remain invalid. The original applied engine migration is unchanged.
+
 Call `create_booking` with all parameters:
 
 | Parameter | Type |
