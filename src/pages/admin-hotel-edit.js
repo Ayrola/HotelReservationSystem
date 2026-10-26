@@ -1,3 +1,2 @@
-import { initializePage } from './application.js';
-
-initializePage([]);
+import {adminEditor} from './admin-editor.js';
+await adminEditor('hotel');

@@ -84,6 +84,9 @@ export const pages = [
     "title": "Manage rooms",
     "html": "pages/admin/rooms/index.html"
   },
+  { "key":"admin-hotel-view", "path":"/pages/admin/hotel-view/", "title":"Hotel administration", "html":"pages/admin/hotel-view/index.html" },
+  { "key":"admin-room-type-edit", "path":"/pages/admin/room-type-edit/", "title":"Edit room type", "html":"pages/admin/room-type-edit/index.html" },
+  { "key":"admin-room-edit", "path":"/pages/admin/room-edit/", "title":"Edit physical room", "html":"pages/admin/room-edit/index.html" },
   {
     "key": "admin-bookings",
     "path": "/pages/admin/bookings/",

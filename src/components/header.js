@@ -1,11 +1,12 @@
 import { element, icon } from '../utils/dom.js';
 
 // Authentication is injected from verified application service state.
-export function createHeader({ authenticated = false, onLogout } = {}) {
+export function createHeader({ authenticated = false, isAdmin = false, onLogout } = {}) {
   const brand = element('a', { href: '/', className: 'brand', 'aria-label': 'Staywell home' }, [icon('buildings'), element('span', { text: 'staywell' })]);
   const links = element('ul', { id: 'primary-navigation', className: 'primary-navigation' });
   const items = [['Home', '/'], ['Hotels', '/pages/hotels/']];
   items.push(...(authenticated ? [['My Bookings', '/pages/my-bookings/'], ['Account', '/pages/account/']] : [['Login', '/pages/login/'], ['Register', '/pages/register/']]));
+  if(authenticated && isAdmin) items.push(['Admin','/pages/admin/']);
   for (const [text, href] of items) {
     const link = element('a', { href, text, className: text === 'Register' ? 'btn btn-primary' : 'navigation-link' });
     if (window.location.pathname === href) link.setAttribute('aria-current', 'page');

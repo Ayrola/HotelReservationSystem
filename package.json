@@ -2,6 +2,7 @@
   "name": "hotel-booking-system",
   "version": "1.0.0",
   "scripts": {
+    "bootstrap:admin": "node scripts/bootstrap-admin.mjs",
     "seed:demo": "node scripts/seed-demo.mjs",
     "check:seed": "node --test scripts/seed-demo.test.mjs",
     "check:search": "node --test scripts/hotel-search.test.js",

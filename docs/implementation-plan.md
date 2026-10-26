@@ -70,6 +70,10 @@ User-authorized `/hotel/?id=...` scope: published catalog, accessible linked-ima
 
 User-authorized `/booking/` and `/booking-confirmation/`: fresh quotes, guest fields with optional phone, transactional creation, immutable attempt IDs, duplicate protection, storage-backed reconciliation/replay, re-quote acceptance, custom discard dialog/toasts and authorized persisted confirmation. Optional-phone migration 20261026194125 applied after aligned history and focused local SQL checks. Short Node tests, build and live owner/isolation reads passed; no live test bookings, Playwright or long suite. See docs/booking-pages.md. Details/history/cancellation UI remain outside this scope.
 
+## Milestone Admin catalog — hotels, room types and private rooms (implemented, untested)
+
+User-authorized admin-session/role guards, hotel list/view/create/edit/state changes, separate room-type/room forms, supported-IANA timezone validation, private inventory and confirmed delete-or-deactivate operations. Existing RLS/grants/history/uniqueness/relationship guards reused. Protected administration migration applied as 20261026195340 after matching existing histories. Trusted server-only first-admin bootstrap requires explicit Auth UUID/project reference; it was not executed. No tests/build/browser checks, per explicit user instruction. See docs/admin-catalog.md. Image/Storage and admin reservation operations remain deferred.
+
 ## Milestone 2c — remaining storage policies and administration operations
 
 Design hotels, room types, physical rooms, reservations, roles and image metadata. Implement committed SQL migrations, indexes, constraints, grants, RLS and Storage policies. Establish trusted admin provisioning. Implement protected atomic room allocation/reservation creation and eligible cancellation, including booking price snapshots. Each reservation has one physical room and immediate confirmation.

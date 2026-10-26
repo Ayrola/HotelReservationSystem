@@ -1,0 +1,4 @@
+.admin-form { max-width:48rem; }
+.admin-copy { white-space:pre-wrap; overflow-wrap:anywhere; }
+.admin-table-actions { display:flex; flex-wrap:wrap; gap:var(--space-sm); }
+.admin-table-actions .btn { padding:.5rem .75rem; }

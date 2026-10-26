@@ -54,7 +54,7 @@ showToast('Explain the result.', { tone: 'info' });
 showToast('Explain the error and recovery.', { tone: 'error' });
 ```
 
-No authentication state is simulated. Pages initially mount the public header, then page composition injects server-verified Supabase user state through the session module. The authenticated variant offers My Bookings, Account and working local Logout. There is deliberately no admin variant until role checking exists. See [authentication](authentication.md).
+No authentication state is simulated. Pages initially mount the public header, then page composition injects server-verified Supabase user state through the session module. The authenticated variant offers My Bookings, Account and working local Logout. Admin navigation appears only after a trusted database-role check. See [authentication](authentication.md) and [admin catalog](admin-catalog.md).
 
 ## Accessibility behaviour
 
